@@ -1,0 +1,19 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Image files are binary and ignored in language statistics
+*.png binary linguist-generated
+*.jpg binary linguist-generated
+*.jpeg binary linguist-generated
+
+# Ignore compiled objects in statistics
+*.o binary linguist-generated
+
+# Specifically for Go
+*.go text diff=golang
+
+# Ignore the entire bin directory from language and diff statistics
+bin/* linguist-generated
+
+# Documentation
+*.md text diff=markdown
