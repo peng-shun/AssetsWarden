@@ -14,6 +14,6 @@
 
 # Ignore the entire bin directory from language and diff statistics
 bin/* linguist-generated
-
+internal/ebpf/bpf/vmlinux.h linguist-generated
 # Documentation
 *.md text diff=markdown
