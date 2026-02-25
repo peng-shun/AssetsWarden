@@ -1,8 +1,7 @@
 protected_paths:
   - /workshop/PPProject
 
-monitored_users:
-  - s3            # 不指定则监控所有用户；此处监控 s3 用户
+monitored_users:       # 不指定则监控所有用户；此处监控 s3 用户
 
 log_level: info
 

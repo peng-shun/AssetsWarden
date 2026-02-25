@@ -10,6 +10,8 @@
 #include <bpf/bpf_tracing.h>
 #include <bpf/bpf_core_read.h>
 
+#define EPERM 1
+
 char LICENSE[] SEC("license") = "GPL";
 
 // ------------------------------------------------------------------
