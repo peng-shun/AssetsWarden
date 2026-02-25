@@ -42,7 +42,7 @@ llm:
   model: "gpt-4o"
 
 mcp:
-  enabled: true
+  enabled: disable
   transport: stdio
 ```
 
@@ -62,6 +62,6 @@ sudo ./bin/assetwarden --config configs/default.yaml
 2. 运行 `assetwarden`：`sudo make run`
 3. 尝试在目录下删除文件：
    ```bash
-   rm /workshop/PPProject/critical_file.txt
+   sudo rm /workshop/PPProject/critical_file.txt
    ```
 4. 将会得到 `Operation not permitted` 的内核阻断，并且能在 `assetwarden` 的终端中看到相关事件的安全分析日志（若开启 LLM）。

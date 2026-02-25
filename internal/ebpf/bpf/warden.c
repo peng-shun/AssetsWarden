@@ -91,7 +91,7 @@ static __always_inline int is_protected(struct dentry *dentry, __u64 dev) {
 
         __u64 ino = BPF_CORE_READ(inode, i_ino);
         __u64 *stored_dev = bpf_map_lookup_elem(&config_map, &ino);
-        if (stored_dev && *stored_dev == dev) {
+        if (stored_dev) {
             return 1;
         }
 
@@ -160,14 +160,21 @@ int BPF_PROG(warden_unlink, struct inode *dir, struct dentry *dentry) {
         return 0;
 
     __u64 dev = get_dev(dentry);
-    if (!is_protected(dentry, dev))
+    
+    // Add debug tracing
+    __u64 target_ino = BPF_CORE_READ(dentry, d_inode, i_ino);
+    bpf_printk("unlink called: target_ino=%llu dev=%llu", target_ino, dev);
+    
+    if (!is_protected(dentry, dev)) {
         return 0;
+    }
 
     __u32 pid = bpf_get_current_pid_tgid() >> 32;
-    __u64 ino = BPF_CORE_READ(dentry, d_inode, i_ino);
     __u64 dir_ino = BPF_CORE_READ(dir, i_ino);
 
-    emit_event(0, pid, uid, ino, dev, dir_ino, 0, 0);
+    bpf_printk("unlink DENIED: target_ino=%llu dir_ino=%llu", target_ino, dir_ino);
+
+    emit_event(0, pid, uid, target_ino, dev, dir_ino, 0, 0);
     return -EPERM;
 }
 
